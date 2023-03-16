@@ -1,37 +1,34 @@
-# Créer un système de gestion de bases de données
+Exercice (partie n°1):
+Faire un logiciel de compression d’image PNG
 
-Le but est de créer un système de base de données avec connexion. Toutes les données sont enregistrer sur la machine dans des fichiers au format CSV
+Créer un front avec un bouton qui déclenche l’ouverture d’une boite de dialog pour sélectionner plusieurs fichier avec comme extension .png
+Compresser les fichiers sélectionnés, grâce au package pngquant-bin
+Mettre les fichiers compressés dans un dossier `compressed-files` dans les dossier temporaires de la machine ( créer si dossier n’existe pas )
+Ouvrir le dossier `compressed-files`
+Exercice (partie n°2):
+Mettre le logiciel en grand écran dès le démarrage
 
-Le choix de la technologie est à votre appréciation
+Mettre le logiciel en dark mode
 
-## Collaborateurs
-* [Julien Mercadal](https://github.com/jeremydeblaecker) 
-* [Jérémy Deblaecker](https://github.com/borkevo)
-* [Jimmy Muller](https://github.com/Guirdin)
+Faire une barre de progression jusqu’à la fin de progression des fichiers
 
-## Consignes
-Créer un logiciel en ligne de commande 
+Créer une notification quand les images ont été compressé
 
-Les identifiants sont enregistrés dans un fichier, permettre de tester les identifiants sans devoir faire de requêtes SQL. (option -t permet de tester les identifiants)
-mybdd -u user -p password -l
- Login success
+Créer une icône de la barre d’état avec son propre menu contextuel dans la zone de notification du système
+Quand on ferme la fenêtre ne pas fermer l’application
+Lorsqu’on clique sur l'icône avoir les options suivantes
+Ferme l’application
+Ouvrir l’application
+Sélectionner des images
+Exercice (partie n°3):
 
-Une fois la connexion faite laisser la possibilitée à l’utilisateur de faire les commandes suivante:
-* CREATE DATABASE database
-* SHOW DATABASES
-* CREATE TABLE table (col1, col2, col3)
-* SHOW TABLES
-* DESCRIBE TABLE
-* INSERT INTO table VALUES (value1, value2, value3)
-* SELECT * FROM table
+Build le projet pour créer un installer
+https://www.electronforge.io
+OU
+https://www.electron.build 
 
+Créer un installer Windows ou Mac
+Sur Windows utiliser Inno Setup
+Sur Mac utiliser DMG Canvas
+Pour créer l’installer utiliser le dossier unpackage au moment du build
 
-Donner la possibilitée à l’utilisateur de faire des requêtes en une ligne
-mybdd -u user -p password --sql “CREATE DATABASE database”
-
-Ajouter la possibilité de sortie d’affichage --format=csv
-* CSV
-* JSON
-* Au format tableau visuel
-
-Ajouter les options -h --help || -v --version || -l --login || -u --user || -p --password || -s --sql || -f --format
