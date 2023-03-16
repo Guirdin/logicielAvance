@@ -1,0 +1,29 @@
+{
+    "datbase":
+    {
+        "tables":
+        {
+            "column":
+            {
+                "row": "data"
+            }
+        }
+    }
+    ,
+    "app":
+    {
+        "user":
+        {
+            "idUser":{
+                "name":"Deblaecker",
+                "prenom":"jeremy"
+            },
+            "idUser":{
+                "name":"Mercatale",
+                "prenom":"Rulien"
+            }
+        }
+
+    }
+
+}
