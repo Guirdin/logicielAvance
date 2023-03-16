@@ -1,0 +1,16 @@
+{
+  "name": "instinctive-kick-decorate-224gp",
+  "productName": "instinctive-kick-decorate-224gp",
+  "description": "My Electron application description",
+  "keywords": [],
+  "main": "./main.js",
+  "version": "1.0.0",
+  "author": "jerem",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "22.0.2"
+  }
+}
