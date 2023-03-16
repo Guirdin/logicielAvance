@@ -1,5 +1,5 @@
 // #include "../lib/json-develop/include/nlohmann/json.hpp"
-#include <nlohmann/json.hpp>
+#include "../lib/json.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -30,7 +30,7 @@ void createJsonFile(){
     std::ifstream file("../data/"+idUser+".json");
 }
 
-int main(){
+int main(int argc, char *argv[]){
     
     string name;
     string pass;
