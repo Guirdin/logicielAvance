@@ -6,52 +6,55 @@
 using std::string;
 using nlohmann::json;
 
-// std::ifstream f("example.json");
-// json data = json::parse(f);
-
 class database
 {
     private:
         /* data */
-        string idUser;
+        string path;
         json data;
 
     public:
-        database(string id){
-            idUser = id;
+        database(string idUser){
+            path = "../data/"+idUser+".json";
 
-            std::ifstream file("../data/"+idUser+".json");
-            if(!file.good()){
-                json myJsonObject;
+            std::ifstream readFile(path);
+            if(!readFile.good()){
                 std::cout << "Create json file :" << std::endl;
 
-                std::ofstream createFile("../data/"+idUser+".json");
-                createFile << myJsonObject;
+                std::ofstream createFile(path);
+                createFile << json::object();
+                createFile.close();
+
             }
+            readFile.close();
         };
         ~database(){};
          
         void create(string name){
-            std::ifstream readFile("../data/"+idUser+".json");
+            std::ifstream readFile(path);
             readFile >> data;
+            readFile.close();
+            
             if (!data.contains(name)) // vérifie si la bdd n'existe pas
             {
                 json nameBdd = {name: {}};
                 data.emplace(name, nameBdd);
-                std::ofstream file("../data/"+idUser+".json");
-                file << data;
+                std::ofstream writeFile(path);
+                writeFile << data.dump(4);
+                writeFile.close();
                 std::cout << "File created successfully: "<< name << std::endl;
             }
             
-
-            std::cout << "After creation: " << data.dump() << std::endl;
-
+            std::cout << "After creation: " << data.dump(4) << std::endl;
         }
 
         void read(string name){
+            std::ifstream readFile(path);
+            readFile >> data;
+            readFile.close();
+
             // Get the value of "name"
-            std::string database = data[name];
-            std::cout << "database: " << database << std::endl;
+            std::cout << "database - " << name << ": " << data[name] << std::endl;
         }
 
         // void modify(string name){
@@ -61,9 +64,22 @@ class database
         // }
 
         void remove(string name){
-            data.erase(name);
+            // ouvrir le fichier en mode lecture
+            std::ifstream readFile(path);
+            readFile >> data;
+            readFile.close();
+
             std::cout << "Delete database: "<< name << std::endl;
-            std::cout << "After deleting: " << data.dump() << std::endl;
+            data.erase(name);
+
+            std::cout << "After deleting: " << data.dump(4) << std::endl;
+
+            // ouvrir le fichier en mode ecriture
+            std::ofstream writeFile(path);
+
+            // ecrire le contenu mis a jour dans le fichier
+            writeFile << data.dump(4);
+            writeFile.close();
         }
 
         

@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include "../lib/database.h"
+#include "../lib/table.h"
 
 using std::string;
 using nlohmann::json;
@@ -28,6 +29,7 @@ int main(int argc, char *argv[]){
     string name;
     string pass;
     string nameBDD;
+    string nameTable;
 
     // Connexion
     std::cout << "Username:" << std::endl;
@@ -39,10 +41,33 @@ int main(int argc, char *argv[]){
     if(connexionBDD(name, pass)){
         database myfileBDD(idUser);
 
-        std::cout << "nameDatabase: " << std::endl;
-        std::cin >> nameBDD;
+        // std::cout << "nameDatabase - create: " << std::endl;
+        // std::cin >> nameBDD;
+        // myfileBDD.create(nameBDD);
 
-        myfileBDD.create(nameBDD);
+        // std::cout << "nameDatabase - read: " << std::endl;
+        // std::cin >> nameBDD;
+        // myfileBDD.read(nameBDD);
+
+        // std::cout << "nameDatabase - remove: " << std::endl;
+        // std::cin >> nameBDD;
+        // myfileBDD.remove(nameBDD);
+
+        std::cout << "nameDatabase - table: " << std::endl;
+        std::cin >> nameBDD;
+        table myfileTable(idUser,nameBDD);
+
+        std::cout << "nameTable - create: " << std::endl;
+        std::cin >> nameTable;
+        myfileTable.create(nameTable);
+
+        std::cout << "nameTable - read: " << std::endl;
+        std::cin >> nameTable;
+        myfileTable.read(nameTable);
+
+        std::cout << "nameTable - remove: " << std::endl;
+        std::cin >> nameTable;
+        myfileTable.remove(nameTable);
     }
     return 0;
 }

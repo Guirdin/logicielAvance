@@ -1,40 +1,38 @@
 #include "../lib/json.hpp"
 #include <iostream>
-#include <string>
 #include <fstream>
-#include <sstream>
-#include "database.h"
+#include <string>
 
 using std::string;
 using nlohmann::json;
 
-class table:database
+class table
 {
     private:
-        json tables;
-        std::ifstream f;
-        std::ofstream o;
+        string path;
+        string nameBase;
+        json data;
+    
     public:
-        table(){
-            f.open("tables.json");
-            if (f.good()) {
-                tables = json::parse(f);
-            }
-            else {
-                std::cout << "Error: tables.json does not exist." << std::endl;
-            }
+        table(string idUser, string nameBDD){
+            path = "../data/"+idUser+".json";
+            nameBase = nameBDD;
         };
-        ~table(){
-            o.open("tables.json");
-            o << std::setw(4) << tables;
-            o.close();
-        };
+        ~table(){};
 
-        void create(string name, string columns){
-            if (!tables[name]) {
+        void create(string name){
+            std::ifstream readFile(path);
+            readFile >> data; 
+            readFile.close();
+
+            if (!data[nameBase].contains(name)) { // vérifie si la table n'existe pas
+                std::cout << "data[nameBase].contains(name): " << data[nameBase].contains(name) << std::endl;
+
                 json table = json::array();
-                table.push_back(columns);
-                tables.emplace(name, table);
+                data[nameBase].emplace(name, table);
+                std::ofstream writeFile(path);
+                writeFile << data.dump(4);
+                writeFile.close();
                 std::cout << "Table created successfully: " << name << std::endl;
             }
             else {
@@ -43,36 +41,30 @@ class table:database
         }
 
         void read(string name){
-                if (tables[name]) {
-                    std::cout << "Columns in table " << name << ":" << std::endl;
-                    std::cout << tables[name][0] << std::endl;
-                    std::cout << "Data in table " << name << ":" << std::endl;
-                    for (size_t i = 1; i < tables[name].size(); i++) {
-                        std::cout << tables[name][i] << std::endl;
-                    }
-                }
-                else {
-                    std::cout << "Table " << name << " does not exist." << std::endl;
-                }
+            std::ifstream readFile(path);
+            readFile >> data;
+            readFile.close();
+
+            // Get the value of "name"
+            std::cout << "Table - " << name << ": " << data[nameBase][name] << std::endl;
         }
 
-        // void modify(string name, string columns){
-        //     if (tables[name]) {
-        //         tables[name][0] = columns;
-        //         std::cout << "Table " << name << " modified successfully." << std::endl;
-        //     }
-        //     else {
-        //         std::cout << "Table " << name << " does not exist." << std::endl;
-        //     }
-        // }
-
         void remove(string name){
-            if (tables[name]) {
-                tables.erase(name);
-                std::cout << "Table " << name << " deleted successfully." << std::endl;
-            }
-            else {
-                std::cout << "Table " << name << " does not exist." << std::endl;
-            }
+            // ouvrir le fichier en mode lecture
+            std::ifstream readFile(path);
+            readFile >> data;
+            readFile.close();
+
+            std::cout << "Delete table: "<< name << std::endl;
+            data[nameBase].erase(name);
+
+            std::cout << "After deleting: " << data[nameBase].dump(4) << std::endl;
+
+            // ouvrir le fichier en mode ecriture
+            std::ofstream writeFile(path);
+
+            // ecrire le contenu mis a jour dans le fichier
+            writeFile << data.dump(4);
+            writeFile.close();
         }
 };

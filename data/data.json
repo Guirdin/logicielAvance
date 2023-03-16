@@ -13,16 +13,17 @@
     "app":
     {
         "user":
-        {
-            "idUser":{
+        [
+            "idUser"{
                 "name":"Deblaecker",
                 "prenom":"jeremy"
             },
-            "idUser":{
+            "idUser"{
                 "name":"Mercatale",
                 "prenom":"Rulien"
             }
-        }
+        ]
+        
 
     }
 
