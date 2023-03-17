@@ -58,9 +58,9 @@ int main(int argc, char *argv[]){
     string nameTable;
     string nameColumn;
 
-    Options o("1");
+    Options o;
 
-    o.parse_args();
+    o.command(argc,argv);
 
 
 
