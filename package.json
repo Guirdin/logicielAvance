@@ -1,6 +1,6 @@
 {
-  "name": "successful-question-look-7sk2y",
-  "productName": "successful-question-look-7sk2y",
+  "name": "steep-oatmeal-study-02k1w",
+  "productName": "steep-oatmeal-study-02k1w",
   "description": "My Electron application description",
   "keywords": [],
   "main": "./main.js",
@@ -10,7 +10,7 @@
     "start": "electron ."
   },
   "dependencies": {
-    "pngquant-bin": "8.0.1"
+    "pngquant-bin": "6.0.1"
   },
   "devDependencies": {
     "electron": "22.0.2"
