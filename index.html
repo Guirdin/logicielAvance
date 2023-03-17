@@ -8,14 +8,14 @@
     <title>Compression de fichiers PNG</title>
   </head>
   <body>
-	<div class="container">
-		<button class="select-files-button">Sélectionner des fichiers .png</button>
-		<div class="progress-bar"></div>
-	</div>
-    <label>
-      <input type="checkbox" id="dark-mode-checkbox">Dark Mode
-    </label>
-    <!-- You can also require other files to run in this process -->
-    <script src="./renderer.js"></script>
+    <div class="container">
+      <button class="select-files-button">Sélectionner des fichiers .png</button>
+      <div class="progress-container">
+        <div class="progress-bar" id="myBar"></div>
+      </div>
+      <br>
+      <button class="dark-mode-btn">Mode sombre</button>
+    </div>
+  <script src="./renderer.js"></script>
   </body>
 </html>

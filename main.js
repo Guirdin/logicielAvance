@@ -1,6 +1,5 @@
 const pngquant = require("pngquant-bin");
-const { ipcMain, dialog } = require('electron');
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog} = require('electron');
 const fs = require('fs');
 const path = require('path');
 const { exec } = require('child_process');
@@ -15,7 +14,8 @@ function createWindow() {
       nodeIntegration: true,
       contextIsolation: false,
     },
-  });
+  })
+  ;
 
   mainWindow.loadFile('index.html');
   //Mettre le logiciel en grand écran dès le démarrage
@@ -26,7 +26,6 @@ function createWindow() {
 
 app.whenReady().then(() => {
   createWindow();
-
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
@@ -50,6 +49,7 @@ ipcMain.on('open-file-dialog', (event) => {
     console.log(error);
   });
 });
+
 
 ipcMain.on('compress-file', (event, filePath) => {
   const tempPath = app.getPath('temp');
@@ -78,4 +78,5 @@ ipcMain.on('compress-file', (event, filePath) => {
 
   // Ouvre le dossier compressed-files avec le gestionnaire de fichiers
   shell.openPath(compressedFolderPath);
+  
 });

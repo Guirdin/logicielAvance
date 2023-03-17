@@ -19,3 +19,11 @@ ipcRenderer.on('compress-file-success', (event, compressedFilePath) => {
 ipcRenderer.on('compress-file-error', (event, errorMessage) => {
   console.error('Error:', errorMessage);
 });
+
+const darkModeButton = document.querySelector('.dark-mode-btn');
+const body = document.querySelector('body');
+
+//Dark mode
+darkModeButton.addEventListener('click', () => {
+  body.classList.toggle('dark');
+});
