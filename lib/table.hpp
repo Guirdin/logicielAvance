@@ -61,6 +61,9 @@ class table
             readFile >> data;
             readFile.close();
 
+            std::cout << "database - " << name << ": " << data[nameBase][name].dump(4) << std::endl;
+
+
             // std::vector<std::string> tables;
             // for (auto& el : data[nameBase][name].items()) {
             //     tables.push_back(el.key());
