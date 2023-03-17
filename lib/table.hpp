@@ -15,28 +15,36 @@ class table
     
     public:
         table(string idUser, string nameBDD){
-            if(nameBase && idUser){
+            // if(nameBase && idUser){
                 path = "../data/"+idUser+".json";
                 nameBase = nameBDD;
-            }
-            else{
-                std::cerr << "Database or user id does not exists." << std::endl;
-                std::cerr << "Table couldn't be created" << std::endl;
-            }
+            // }
+            // else{
+            //     std::cerr << "Database or user id does not exists." << std::endl;
+            //     std::cerr << "Table couldn't be created" << std::endl;
+            // }
         };
         ~table(){};
 
-        void create(string name){
+        void create(string name, std::vector<std::string> columns){
             
             std::ifstream readFile(path);
             readFile >> data; 
             readFile.close();
+
+            
             
 
             if (!data[nameBase].contains(name)) { // vérifie si la table n'existe pas
 
                 json table = json::object();
+                json column = json::array();
                 data[nameBase].emplace(name, table);
+                for (int i = 0; i < columns.size(); i++)
+                {
+                    data[nameBase][name].emplace(columns[i], column);
+                }
+                
                 std::ofstream writeFile(path);
                 writeFile << data.dump(4);
                 writeFile.close();
@@ -45,6 +53,7 @@ class table
             else
                 std::cout << "Table " << name << " already exists." << std::endl;
             
+            
         }
 
         void read(string name){
@@ -52,47 +61,47 @@ class table
             readFile >> data;
             readFile.close();
 
-            std::vector<std::string> tables;
-            for (auto& el : data[nameBase][name].items()) {
-                tables.push_back(el.key());
-            }
+            // std::vector<std::string> tables;
+            // for (auto& el : data[nameBase][name].items()) {
+            //     tables.push_back(el.key());
+            // }
             
-            // Get the value of "name"
+            // // Get the value of "name"
 
-            // Affichage des données sous forme de tableau trié par table
-            std::cout << "Tableau de la base de donnes" << nameBase << ": " << std::endl;
-            for (int i = 0; i < tables.size(); i++)
-            {
-                std::cout << "+------------";
-            }
-            std::cout << "+" << std::endl;
-            std::cout << "| Table " << name << " ";
-            for (int i = 0; i < tables.size(); i++)
-            {
-                if(i == 0)
-                    std::cout << "  ";
-                else
-                    std::cout << "            ";
+            // // Affichage des données sous forme de tableau trié par table
+            // std::cout << "Tableau de la base de donnes" << nameBase << ": " << std::endl;
+            // for (int i = 0; i < tables.size(); i++)
+            // {
+            //     std::cout << "+------------";
+            // }
+            // std::cout << "+" << std::endl;
+            // std::cout << "| Table " << name << " ";
+            // for (int i = 0; i < tables.size(); i++)
+            // {
+            //     if(i == 0)
+            //         std::cout << "  ";
+            //     else
+            //         std::cout << "            ";
 
-            }
-            std::cout << std::endl;
-            for (int i = 0; i < tables.size(); i++)
-            {
-                std::cout << "+------------";
-            }
-            std::cout << "+" << std::endl;
+            // }
+            // std::cout << std::endl;
+            // for (int i = 0; i < tables.size(); i++)
+            // {
+            //     std::cout << "+------------";
+            // }
+            // std::cout << "+" << std::endl;
 
-            for (int i = 0; i < tables.size(); i++)
-            {
-                std::cout << "| " << tables[i] << "       ";
-            }
-            std::cout << std::endl;
+            // for (int i = 0; i < tables.size(); i++)
+            // {
+            //     std::cout << "| " << tables[i] << "       ";
+            // }
+            // std::cout << std::endl;
 
-            for (int i = 0; i < tables.size(); i++)
-            {
-                std::cout << "+------------";
-            }
-            std::cout << "+" << std::endl;
+            // for (int i = 0; i < tables.size(); i++)
+            // {
+            //     std::cout << "+------------";
+            // }
+            // std::cout << "+" << std::endl;
 
         }
 
