@@ -67,9 +67,6 @@ class Options{
 
             if(userId.length()!=0){
                 if(query.at(0)=="create"){
-                    if(query.at(1)=="table"){
-
-                    }
                     if(query.at(1)=="database"){
                         database db(userId);
                         if (query.at(2)!=""){
@@ -77,20 +74,16 @@ class Options{
                         }    
                     }
                 }
-                if(query.at(0)=="select"){
-                    size_t i = 1;
-                    while(query.at(i)!="from"){
-                        i++;
+                if(query.at(0)=="delete"){
+                    if(query.at(1)=="database"){
+                        database db(userId);
+                        if (query.at(2)!=""){
+                            db.remove(query.at(2));
                     }
-                    std::string table = query.at(i+1);
-                    while(query.at(i)!="in"){
-                        i++;
-                    }
-                    std::string db = query.at(i+1);
                 }
-                if(query.at(0)=="delete"){}
             }
-        };
+        }
+        }
 
         
         bool connexionBDD(string name, string pass){
@@ -113,7 +106,6 @@ class Options{
                 return false;
             }
             for (const auto& user : users) {
-                // std::cout << user.id << "," << user.name << "," << user.password << "\n";
                 if(user.name==name && user.password==pass){
                     userId = user.id;
                     userName = user.name;
@@ -148,7 +140,6 @@ class Options{
                     std::string prompt;
                     std::string str;
                     do{
-                        
                         std::cout << "Inserez votre commande : ";
                         std::cin >> prompt;
                         std::cout << std::endl;
@@ -167,6 +158,12 @@ class Options{
                         if(prompt=="use"){
                             use();
                         }
+                        if(prompt=="delete"){
+                            _delete();
+                        }
+                        if(prompt=="select"){
+                            select();
+                        }
 
                     
                     }
@@ -181,13 +178,12 @@ class Options{
                       << std::endl
                       <<"help : Affiche la liste des commandes" << std::endl
                       <<"version : Affiche la version" << std::endl
-                      <<"show : Affiche la liste des databasee/tables" << std::endl
-                      <<"use database <name>: Choisir une database" << std::endl
-                      <<"create database <name> : Creer une database" << std::endl
-                      <<"delete database <name> : Supprimer une database" << std::endl
-                      <<"create table <name> : Creer une table" << std::endl
-                      <<"select <columns> from <table> : Afficher les données d\'une table" << std::endl
-                      <<"delete table <table> : Supprime une table" << std::endl << std::endl;
+                      <<"show : Affiche la liste des database/tables" << std::endl
+                      <<"use : Choisir une database" << std::endl
+                      <<"create : Creer une database/table" << std::endl
+                      <<"delete : Supprimer une database/table" << std::endl
+                      <<"select : Afficher les données d\'une table" << std::endl
+                      <<"exit : Quitter le programme" << std::endl << std::endl;
         }
 
         void version(){
@@ -249,6 +245,7 @@ class Options{
             std::cin >> prompt; 
             database db(this->userId);
             db.create(prompt);
+            std::cout << std::endl << "database crée "<< std::endl;
         }
 
         void create_table(){
@@ -258,6 +255,7 @@ class Options{
                 std::cin >> prompt; 
                 table table(this->userId, this->selectedDB);
                 table.create(prompt);
+                std::cout << std::endl << "table crée "<< std::endl;
             }
             else{
                 std::cout << "Pas de database selectionnée " << std::endl << std::endl;
@@ -270,5 +268,61 @@ class Options{
             std::cout << "Quel est le nom de la database a utiliser ? : ";
             std::cin >> prompt;
             this->selectedDB = prompt; // check si table existe
+        }
+
+        void _delete(){
+             std::string prompt;
+            do{
+                std::cout << "Database ou Table ? : ";
+                std::cin >> prompt;
+                std::cout << std::endl << std::endl;
+                if(prompt=="database"){
+                    delete_db();
+                    break;
+                }
+                if(prompt=="table"){
+                    delete_table();
+                    break;
+                }
+            }
+            while(prompt!="database"||prompt!="table");
+
+        }
+
+        void delete_db(){
+            std::string prompt;
+            std::cout << "Quel est le nom de la database ? : ";
+            std::cin >> prompt; 
+            database db(this->userId);
+            db.remove(prompt);
+            std::cout << std::endl << "Database suprimée "<< std::endl;
+        }
+
+        void delete_table(){
+            if(this->selectedDB.length()!=0){
+                std::string prompt;
+                std::cout << "Quel est le nom de la table ? : ";
+                std::cin >> prompt; 
+                table table(this->userId, this->selectedDB);
+                table.remove(prompt);
+                std::cout << std::endl << "Table suprimée "<< std::endl;
+            }
+            else{
+                std::cout << "Pas de database selectionnée " << std::endl << std::endl;
+            }
+            
+        }
+
+        void select(){
+            if(this->selectedDB.length()!=0){
+                std::string prompt;
+                std::cout << "Quel est le nom de la table ? : ";
+                std::cin >> prompt; 
+                table table(this->userId, this->selectedDB);
+                table.read(prompt);
+            }
+            else{
+                std::cout << "Pas de database selectionnée " << std::endl << std::endl;
+            }
         }
 };
