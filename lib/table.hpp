@@ -15,15 +15,23 @@ class table
     
     public:
         table(string idUser, string nameBDD){
-            path = "../data/"+idUser+".json";
-            nameBase = nameBDD;
+            if(nameBase && idUser){
+                path = "../data/"+idUser+".json";
+                nameBase = nameBDD;
+            }
+            else{
+                std::cerr << "Database or user id does not exists." << std::endl;
+                std::cerr << "Table couldn't be created" << std::endl;
+            }
         };
         ~table(){};
 
         void create(string name){
+            
             std::ifstream readFile(path);
             readFile >> data; 
             readFile.close();
+            
 
             if (!data[nameBase].contains(name)) { // vérifie si la table n'existe pas
 
@@ -34,9 +42,9 @@ class table
                 writeFile.close();
                 std::cout << "Table created successfully: " << name << std::endl;
             }
-            else {
+            else
                 std::cout << "Table " << name << " already exists." << std::endl;
-            }
+            
         }
 
         void read(string name){
