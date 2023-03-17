@@ -1,6 +1,6 @@
 {
-  "name": "instinctive-kick-decorate-224gp",
-  "productName": "instinctive-kick-decorate-224gp",
+  "name": "successful-question-look-7sk2y",
+  "productName": "successful-question-look-7sk2y",
   "description": "My Electron application description",
   "keywords": [],
   "main": "./main.js",
@@ -9,7 +9,9 @@
   "scripts": {
     "start": "electron ."
   },
-  "dependencies": {},
+  "dependencies": {
+    "pngquant-bin": "8.0.1"
+  },
   "devDependencies": {
     "electron": "22.0.2"
   }
