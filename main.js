@@ -1,7 +1,5 @@
-const { dialog } = require('electron');
+const { ipcMain, dialog } = require('electron');
 const { app, BrowserWindow } = require('electron');
-const path = require('path');
-app.allowRendererProcessReuse = true;
 
 let mainWindow;
 
@@ -30,4 +28,20 @@ app.whenReady().then(() => {
 
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit();
+});
+
+
+ipcMain.on('open-file-dialog', (event) => {
+  dialog.showOpenDialog({
+    properties: ['openFile', 'multiSelections'],
+    filters: [
+      { name: 'Images PNG', extensions: ['png'] }
+    ]
+  }).then((result) => {
+    if (!result.canceled && result.filePaths.length > 0) {
+      event.sender.send('selected-file', result.filePaths[0]);
+    }
+  }).catch((error) => {
+    console.log(error);
+  });
 });
