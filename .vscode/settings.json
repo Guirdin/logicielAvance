@@ -86,7 +86,18 @@
         "xtr1common": "cpp",
         "xtree": "cpp",
         "xutility": "cpp",
-        "*.json": "cpp"
+        "*.json": "cpp",
+        "condition_variable": "cpp",
+        "coroutine": "cpp",
+        "scoped_allocator": "cpp",
+        "semaphore": "cpp",
+        "shared_mutex": "cpp",
+        "source_location": "cpp",
+        "spanstream": "cpp",
+        "stack": "cpp",
+        "stacktrace": "cpp",
+        "strstream": "cpp",
+        "syncstream": "cpp"
     },
     "cmake.configureOnOpen": false
 }

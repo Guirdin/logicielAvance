@@ -1,28 +1,60 @@
-#include "../lib/json.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "../lib/database.h"
-#include "../lib/table.h"
+#include <vector>
+
+#include "../lib/json.hpp"
+#include "../lib/database.hpp"
+#include "../lib/table.hpp"
+#include "../lib/column.hpp"
 
 using std::string;
 using nlohmann::json;
 
-string username = "root";
-string password = "root";
-string idUser = "1";
+struct User {
+    string id;
+    string name;
+    string password;
+};
+
+string userId;
+string userName;
+string userPassword;
 
 bool connexionBDD(string name, string pass){
+    std::vector<User> users;
 
-    if(username==name && password==pass){
-        std::cout << "Login success" << std::endl;
-        return true;
-    }
-    else{
-        std::cout << "Login failed" << std::endl;
+    std::ifstream readfile("../data/identifiants.txt");
+    if (readfile.is_open()) {
+        std::string line;
+        while (std::getline(readfile, line)) {
+            std::istringstream iss(line);
+            User user;
+            if (std::getline(iss, user.id, ',') &&
+                std::getline(iss, user.name, ',') &&
+                std::getline(iss, user.password, ',')) {
+                users.push_back(user);
+            }
+        }
+    } else {
+        std::cerr << "Error: Could not open file." << std::endl;
         return false;
     }
+    for (const auto& user : users) {
+        // std::cout << user.id << "," << user.name << "," << user.password << "\n";
+        if(user.name==name && user.password==pass){
+            userId = user.id;
+            userName = user.name;
+            userPassword = user.password;
+            std::cout << "Login success" << std::endl;
+            return true;
+        }
+    }
+    std::cout << "Login failed" << std::endl;
+    return false;
 }
+
+
 
 int main(int argc, char *argv[]){
     
@@ -30,16 +62,19 @@ int main(int argc, char *argv[]){
     string pass;
     string nameBDD;
     string nameTable;
+    string nameColumn;
 
     // Connexion
-    std::cout << "Username:" << std::endl;
+    std::cout << "Username:";
     std::cin >> name;
-
-    std::cout << "Password:" << std::endl;
+    std::cout << std::endl;
+    std::cout << "Password:";
     std::cin >> pass;
+    std::cout << std::endl;
+
 
     if(connexionBDD(name, pass)){
-        database myfileBDD(idUser);
+        // database myfileBDD(userId);
 
         // std::cout << "nameDatabase - create: " << std::endl;
         // std::cin >> nameBDD;
@@ -53,21 +88,41 @@ int main(int argc, char *argv[]){
         // std::cin >> nameBDD;
         // myfileBDD.remove(nameBDD);
 
-        std::cout << "nameDatabase - table: " << std::endl;
+        // std::cout << "nameDatabase - table: " << std::endl;
+        // std::cin >> nameBDD;
+        // table myfileTable(userId,nameBDD);
+
+        // std::cout << "nameTable - create: " << std::endl;
+        // std::cin >> nameTable;
+        // myfileTable.create(nameTable);
+
+        // std::cout << "nameTable - read: " << std::endl;
+        // std::cin >> nameTable;
+        // myfileTable.read(nameTable);
+
+        // std::cout << "nameTable - remove: " << std::endl;
+        // std::cin >> nameTable;
+        // myfileTable.remove(nameTable);
+
+        std::cout << "nameDatabase - column: ";
         std::cin >> nameBDD;
-        table myfileTable(idUser,nameBDD);
-
-        std::cout << "nameTable - create: " << std::endl;
+        std::cout << std::endl;
+        std::cout << "nameTable - column: " << std::endl;
         std::cin >> nameTable;
-        myfileTable.create(nameTable);
+        std::cout << std::endl;
+        column myfileColumn(userId,nameBDD,nameTable);
 
-        std::cout << "nameTable - read: " << std::endl;
-        std::cin >> nameTable;
-        myfileTable.read(nameTable);
+        std::cout << "nameColumn - create: " << std::endl;
+        std::cin >> nameColumn;
+        myfileColumn.create(nameColumn);
 
-        std::cout << "nameTable - remove: " << std::endl;
-        std::cin >> nameTable;
-        myfileTable.remove(nameTable);
+        std::cout << "nameColumn - read: " << std::endl;
+        std::cin >> nameColumn;
+        myfileColumn.read(nameColumn);
+
+        std::cout << "nameColumn - remove: " << std::endl;
+        std::cin >> nameColumn;
+        myfileColumn.remove(nameColumn);
     }
     return 0;
 }

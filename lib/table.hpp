@@ -26,9 +26,8 @@ class table
             readFile.close();
 
             if (!data[nameBase].contains(name)) { // vérifie si la table n'existe pas
-                std::cout << "data[nameBase].contains(name): " << data[nameBase].contains(name) << std::endl;
 
-                json table = json::array();
+                json table = json::object();
                 data[nameBase].emplace(name, table);
                 std::ofstream writeFile(path);
                 writeFile << data.dump(4);
