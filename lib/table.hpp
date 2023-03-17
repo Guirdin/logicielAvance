@@ -44,8 +44,48 @@ class table
             readFile >> data;
             readFile.close();
 
+            std::vector<std::string> tables;
+            for (auto& el : data[nameBase][name].items()) {
+                tables.push_back(el.key());
+            }
+            
             // Get the value of "name"
-            std::cout << "Table - " << name << ": " << data[nameBase][name] << std::endl;
+
+            // Affichage des données sous forme de tableau trié par table
+            std::cout << "Tableau de la base de donnes" << nameBase << ": " << std::endl;
+            for (int i = 0; i < tables.size(); i++)
+            {
+                std::cout << "+------------";
+            }
+            std::cout << "+" << std::endl;
+            std::cout << "| Table " << name << " ";
+            for (int i = 0; i < tables.size(); i++)
+            {
+                if(i == 0)
+                    std::cout << "  ";
+                else
+                    std::cout << "            ";
+
+            }
+            std::cout << std::endl;
+            for (int i = 0; i < tables.size(); i++)
+            {
+                std::cout << "+------------";
+            }
+            std::cout << "+" << std::endl;
+
+            for (int i = 0; i < tables.size(); i++)
+            {
+                std::cout << "| " << tables[i] << "       ";
+            }
+            std::cout << std::endl;
+
+            for (int i = 0; i < tables.size(); i++)
+            {
+                std::cout << "+------------";
+            }
+            std::cout << "+" << std::endl;
+
         }
 
         void remove(string name){
