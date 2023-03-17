@@ -1,7 +1,12 @@
 {
     "voyage": {
         "europe": {
-            "pays": {}
+            "pays": ["france","Espagne"],
+            "ville": ["paris","madrid"]
+        },
+        "ocean": {
+            "mer": ["manche","mediterranee"],
+            "ile": ["coco","martinique"]
         }
     }
 }
