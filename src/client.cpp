@@ -4,18 +4,12 @@
 #include <vector>
 
 #include "../lib/json.hpp"
-#include "../lib/database.hpp"
-#include "../lib/table.hpp"
 #include "../lib/column.hpp"
+#include "../lib/options.h"
+
 
 using std::string;
 using nlohmann::json;
-
-struct User {
-    string id;
-    string name;
-    string password;
-};
 
 string userId;
 string userName;
@@ -64,16 +58,22 @@ int main(int argc, char *argv[]){
     string nameTable;
     string nameColumn;
 
+    Options o("1");
+
+    o.parse_args();
+
+
+
     // Connexion
-    std::cout << "Username:";
-    std::cin >> name;
-    std::cout << std::endl;
-    std::cout << "Password:";
-    std::cin >> pass;
-    std::cout << std::endl;
+    // std::cout << "Username:";
+    // std::cin >> name;
+    // std::cout << std::endl;
+    // std::cout << "Password:";
+    // std::cin >> pass;
+    // std::cout << std::endl;
 
 
-    if(connexionBDD(name, pass)){
+    // if(connexionBDD(name, pass)){
         // database myfileBDD(userId);
 
         // std::cout << "nameDatabase - create: " << std::endl;
@@ -104,26 +104,26 @@ int main(int argc, char *argv[]){
         // std::cin >> nameTable;
         // myfileTable.remove(nameTable);
 
-        std::cout << "nameDatabase - column: ";
-        std::cin >> nameBDD;
-        std::cout << std::endl;
-        std::cout << "nameTable - column: " << std::endl;
-        std::cin >> nameTable;
-        std::cout << std::endl;
-        column myfileColumn(userId,nameBDD,nameTable);
+    //     std::cout << "nameDatabase - column: ";
+    //     std::cin >> nameBDD;
+    //     std::cout << std::endl;
+    //     std::cout << "nameTable - column: " << std::endl;
+    //     std::cin >> nameTable;
+    //     std::cout << std::endl;
+    //     column myfileColumn(userId,nameBDD,nameTable);
 
-        std::cout << "nameColumn - create: " << std::endl;
-        std::cin >> nameColumn;
-        myfileColumn.create(nameColumn);
+    //     std::cout << "nameColumn - create: " << std::endl;
+    //     std::cin >> nameColumn;
+    //     myfileColumn.create(nameColumn);
 
-        std::cout << "nameColumn - read: " << std::endl;
-        std::cin >> nameColumn;
-        myfileColumn.read(nameColumn);
+    //     std::cout << "nameColumn - read: " << std::endl;
+    //     std::cin >> nameColumn;
+    //     myfileColumn.read(nameColumn);
 
-        std::cout << "nameColumn - remove: " << std::endl;
-        std::cin >> nameColumn;
-        myfileColumn.remove(nameColumn);
-    }
+    //     std::cout << "nameColumn - remove: " << std::endl;
+    //     std::cin >> nameColumn;
+    //     myfileColumn.remove(nameColumn);
+    // }
     return 0;
 }
 
