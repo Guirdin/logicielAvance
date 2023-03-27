@@ -23,7 +23,7 @@ ipcRenderer.on('compress-file-error', (event, errorMessage) => {
 const darkModeButton = document.querySelector('.dark-mode-btn');
 const body = document.querySelector('body');
 
-//Dark mode
+//Dark Mode
 darkModeButton.addEventListener('click', () => {
   body.classList.toggle('dark');
 });

@@ -1,5 +1,5 @@
 const pngquant = require("pngquant-bin");
-const { app, BrowserWindow, ipcMain, dialog} = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, Tray, Menu} = require('electron');
 const fs = require('fs');
 const path = require('path');
 const { exec } = require('child_process');
@@ -14,18 +14,35 @@ function createWindow() {
       nodeIntegration: true,
       contextIsolation: false,
     },
-  })
-  ;
-
+  });
   mainWindow.loadFile('index.html');
-  //Mettre le logiciel en grand écran dès le démarrage
+  // Set the screen to maxsize when loading
   mainWindow.maximize();
 
   mainWindow.webContents.openDevTools();
+
+  // Hide window instead of closing it
+  mainWindow.on('close', (event) => {
+    event.preventDefault();
+    mainWindow.hide();
+  });
+}
+
+function createTray () {
+  tray = new Tray(path.join(__dirname, 'icon.png'))
+  const contextMenu = Menu.buildFromTemplate([
+    { label: 'Ouvrir l\'application', click: () => mainWindow.show() },
+    { label: 'Sélectionner des images', click: () => mainWindow.webContents.send('open-file-dialog') },
+    { type: 'separator' },
+    { label: 'Fermer l\'application', click: () => app.quit() }
+  ]);
+  tray.setToolTip('Mon application')
+  tray.setContextMenu(contextMenu)
 }
 
 app.whenReady().then(() => {
   createWindow();
+  createTray()
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
@@ -35,6 +52,7 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit();
 });
 
+//Open files from the computer where extensions is png
 ipcMain.on('open-file-dialog', (event) => {
   dialog.showOpenDialog({
     properties: ['openFile', 'multiSelections'],
@@ -49,7 +67,6 @@ ipcMain.on('open-file-dialog', (event) => {
     console.log(error);
   });
 });
-
 
 ipcMain.on('compress-file', (event, filePath) => {
   const tempPath = app.getPath('temp');
@@ -78,5 +95,4 @@ ipcMain.on('compress-file', (event, filePath) => {
 
   // Ouvre le dossier compressed-files avec le gestionnaire de fichiers
   shell.openPath(compressedFolderPath);
-  
 });
